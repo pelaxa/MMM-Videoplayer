@@ -24,6 +24,7 @@ Module.register("MMM-Videoplayer", {
 		muted: true, // Mute the sound. If auto play is true, this needs to be true as well, otherwise the video will not auto play.
 		pauseonhide: true, // If true the module will pause the video when hidden.
 		resumeonshow: true,  // If true the module will resume the video when shown.
+		islive: false, // when set to true along with resumeonshow will reload the video so the live feed is shown
 		notification: "VIDEOPLAYER1", // Unique notification string for this player.
 	},
 
@@ -59,7 +60,11 @@ Module.register("MMM-Videoplayer", {
 	// What happens when the module is shown.
 	resume: function () {
 		if (this.config.resumeonshow) {
-			this.video.play();
+			if (this.config.islive) {
+				this.replayVideo();
+			} else {
+				this.video.play();
+			}
 		}
 	},
 
